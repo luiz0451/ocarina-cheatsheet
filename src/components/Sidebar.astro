@@ -1,0 +1,84 @@
+---
+import { Image } from "astro:assets";
+import { getAbsoluteLocaleUrl } from "astro:i18n";
+import kofiIcon from "@/assets/kofi.png";
+import ocarinaIcon from "@/assets/ocarina.png";
+import { LOCALES, localeUrl, type Locale } from "@/i18n";
+import { GITHUB_PROFILE, KOFI_URL } from "@/lib/site";
+import { ExportImageButton } from "./ExportImageButton";
+import GitHubIcon from "./GitHubIcon.astro";
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = LOCALES[locale].dict;
+// Section anchors on the single page; the title above already links home.
+const nav = [
+  { label: t.nav.notes, href: localeUrl(locale, "#notes") },
+  { label: t.nav.songs, href: localeUrl(locale, "#songs") },
+  { label: t.nav.warpSongs, href: localeUrl(locale, "#warp-songs") },
+];
+const externalLinkClass = "inline-flex items-center gap-2 text-muted-foreground hover:text-foreground";
+// Printed on the exported image so it points back to the site.
+const siteAddress = getAbsoluteLocaleUrl(locale).replace(/^https?:\/\//, "");
+---
+
+<aside class="shrink-0">
+  <div class="flex flex-col gap-8 text-sm sm:sticky sm:top-10">
+    <nav aria-label="Main" class="flex flex-col gap-2">
+      <a
+        href={localeUrl(locale)}
+        class="mb-2 flex flex-col items-start gap-2 font-semibold text-foreground hover:no-underline"
+      >
+        <Image src={ocarinaIcon} alt="" width={24} height={24} densities={[1, 2]} class="size-6 shrink-0" />
+        <span class="whitespace-nowrap">{t.site.title}</span>
+      </a>
+      {
+        nav.map((item) => (
+          <a href={item.href}>{item.label}</a>
+        ))
+      }
+    </nav>
+
+    <ExportImageButton
+      client:idle
+      targetId="cheatsheet"
+      label={t.exportImage.label}
+      busyLabel={t.exportImage.busy}
+      title={t.site.title}
+      subtitle={`${t.site.description} ${siteAddress}`}
+      fileName={`ocarina-cheatsheet-${locale}.png`}
+    />
+
+    <nav aria-label={t.language} class="flex flex-col gap-1.5 text-xs">
+      <span class="text-muted-foreground">{t.language}</span>
+      {
+        (Object.keys(LOCALES) as Locale[]).map((code) => (
+          <a
+            href={localeUrl(code)}
+            hreflang={LOCALES[code].lang}
+            lang={LOCALES[code].lang}
+            aria-current={code === locale ? "true" : undefined}
+            class="aria-[current=true]:font-medium aria-[current=true]:text-foreground"
+          >
+            {LOCALES[code].name}
+          </a>
+        ))
+      }
+    </nav>
+
+    <div class="flex flex-col gap-2 text-xs">
+      <a href={GITHUB_PROFILE.url} class={externalLinkClass}>
+        <GitHubIcon class="size-4" />
+        <span>{GITHUB_PROFILE.handle}</span>
+      </a>
+      <a href={KOFI_URL} class={externalLinkClass}>
+        <!-- Official Ko-fi cup logo from https://more.ko-fi.com/brand-assets -->
+        <Image src={kofiIcon} alt="" width={16} height={16} densities={[1, 2]} class="size-4 shrink-0" />
+        <span>{t.support}</span>
+      </a>
+    </div>
+  </div>
+</aside>

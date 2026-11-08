@@ -1,0 +1,33 @@
+---
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { SONG_NOTES, type SongId } from "@/data/songs";
+import type { Dict } from "@/i18n";
+import type { OcarinaNote } from "@/lib/ocarina";
+import { Staff } from "./Staff";
+
+interface Props {
+  id: SongId;
+  t: Dict;
+}
+
+const { id, t } = Astro.props;
+const { title, description } = t.songs[id];
+const noteLabels = Object.fromEntries(
+  Object.entries(t.notes).map(([note, { label }]) => [note, label]),
+) as Record<OcarinaNote, string>;
+// Plain-text sequence: readable/copyable, and indexable by search engines (the staff is an SVG).
+const sequence = SONG_NOTES[id].map((note) => noteLabels[note]).join(" · ");
+---
+
+<Card id={id} className="scroll-mt-8">
+  <CardHeader>
+    <CardTitle>
+      <h3>{title}</h3>
+    </CardTitle>
+    <CardDescription>{description}</CardDescription>
+  </CardHeader>
+  <CardContent>
+    <Staff notes={SONG_NOTES[id]} noteLabels={noteLabels} label={title} />
+    <p class="mt-2 text-xs text-muted-foreground">{sequence}</p>
+  </CardContent>
+</Card>

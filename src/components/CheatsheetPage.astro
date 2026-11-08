@@ -1,0 +1,52 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import { OcarinaButton } from "@/components/ocarina/OcarinaButton";
+import SongCard from "@/components/ocarina/SongCard.astro";
+import { SONGS, WARP_SONGS } from "@/data/songs";
+import { LOCALES, type Locale } from "@/i18n";
+import { NOTE_ORDER } from "@/lib/ocarina";
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = LOCALES[locale].dict;
+---
+
+<Layout locale={locale}>
+  <div id="cheatsheet" class="space-y-12">
+    <!-- Visible title lives in the sidebar; keep one h1 for screen readers and outline. -->
+    <h1 class="sr-only">{t.site.title}</h1>
+
+    <section id="notes" class="scroll-mt-8 space-y-4">
+      <h2 class="text-xl font-semibold">{t.nav.notes}</h2>
+      <ul class="grid grid-cols-2 gap-x-6 gap-y-3 @md:grid-cols-3 @2xl:grid-cols-5">
+        {
+          NOTE_ORDER.map((note) => (
+            <li class="flex items-center gap-2">
+              <OcarinaButton note={note} label={t.notes[note].label} className="text-2xl" />
+              <span class="font-medium whitespace-nowrap">{t.notes[note].label}</span>
+              <span class="text-muted-foreground">{t.notes[note].pitch}</span>
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+
+    <section id="songs" class="scroll-mt-8 space-y-4">
+      <h2 class="text-xl font-semibold">{t.nav.songs}</h2>
+      <div class="grid gap-4 @2xl:grid-cols-2">
+        {SONGS.map((id) => <SongCard id={id} t={t} />)}
+      </div>
+      <p class="text-sm text-muted-foreground">{t.scarecrow}</p>
+    </section>
+
+    <section id="warp-songs" class="scroll-mt-8 space-y-4">
+      <h2 class="text-xl font-semibold">{t.nav.warpSongs}</h2>
+      <div class="grid gap-4 @2xl:grid-cols-2">
+        {WARP_SONGS.map((id) => <SongCard id={id} t={t} />)}
+      </div>
+    </section>
+  </div>
+</Layout>

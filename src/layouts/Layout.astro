@@ -1,0 +1,84 @@
+---
+import "@/styles/global.css";
+import { getAbsoluteLocaleUrl } from "astro:i18n";
+import Sidebar from "@/components/Sidebar.astro";
+import { DEFAULT_LOCALE, LOCALES, type Locale } from "@/i18n";
+import { url } from "@/lib/site";
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const { dict: t, lang, ogLocale } = LOCALES[locale];
+const locales = Object.keys(LOCALES) as Locale[];
+const canonical = getAbsoluteLocaleUrl(locale);
+const ogImage = new URL(url(`/og-${locale}.png`), Astro.site).href;
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  name: t.seo.title,
+  description: t.seo.description,
+  url: canonical,
+  inLanguage: lang,
+  image: ogImage,
+  isPartOf: { "@type": "WebSite", name: t.site.title, url: getAbsoluteLocaleUrl(DEFAULT_LOCALE) },
+  about: {
+    "@type": "VideoGame",
+    name: "The Legend of Zelda: Ocarina of Time",
+    publisher: { "@type": "Organization", name: "Nintendo" },
+  },
+};
+---
+
+<html lang={lang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{t.seo.title}</title>
+    <meta name="description" content={t.seo.description} />
+    <link rel="canonical" href={canonical} />
+    {locales.map((code) => <link rel="alternate" hreflang={LOCALES[code].lang} href={getAbsoluteLocaleUrl(code)} />)}
+    <link rel="alternate" hreflang="x-default" href={getAbsoluteLocaleUrl(DEFAULT_LOCALE)} />
+    <link rel="sitemap" href={url("/sitemap-index.xml")} />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={t.site.title} />
+    <meta property="og:title" content={t.seo.title} />
+    <meta property="og:description" content={t.seo.description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:locale" content={ogLocale} />
+    {
+      locales
+        .filter((code) => code !== locale)
+        .map((code) => <meta property="og:locale:alternate" content={LOCALES[code].ogLocale} />)
+    }
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={t.seo.title} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={t.seo.title} />
+    <meta name="twitter:description" content={t.seo.description} />
+    <meta name="twitter:image" content={ogImage} />
+
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff" />
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0a0a0a" />
+    <link rel="icon" href={url("/favicon.ico")} sizes="48x48" />
+    <link rel="icon" type="image/png" href={url("/favicon.png")} sizes="192x192" />
+    <link rel="apple-touch-icon" href={url("/apple-touch-icon.png")} />
+    <meta name="generator" content={Astro.generator} />
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+  </head>
+  <body class="min-h-screen">
+    <div class="mx-auto min-h-screen max-w-5xl px-6">
+      <div class="flex flex-col gap-8 py-10 sm:flex-row sm:gap-12">
+        <Sidebar locale={locale} />
+        <main class="@container min-w-0 flex-1">
+          <slot />
+        </main>
+      </div>
+    </div>
+  </body>
+</html>
