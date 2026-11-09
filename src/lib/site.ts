@@ -1,4 +1,4 @@
-export const GITHUB_PROFILE = { handle: "luizlisps", url: "https://github.com/luizlisps" } as const;
+export const GITHUB_PROFILE = { handle: "luiz0451", url: "https://github.com/luiz0451" } as const;
 export const KOFI_URL = "https://ko-fi.com/luizcarvalho";
 
 /** Prefix an absolute site path with the configured `base` (GitHub Pages serves under /<repo>/). */

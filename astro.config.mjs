@@ -7,8 +7,8 @@ import tailwindcss from '@tailwindcss/vite';
 
 // https://astro.build/config
 export default defineConfig({
-  // GitHub Pages project site: https://luizlisps.github.io/ocarina-cheatsheet/
-  site: 'https://luizlisps.github.io',
+  // GitHub Pages project site: https://luiz0451.github.io/ocarina-cheatsheet/
+  site: 'https://luiz0451.github.io',
   base: '/ocarina-cheatsheet',
 
   i18n: {

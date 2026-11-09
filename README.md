@@ -2,7 +2,7 @@
 
 Ocarina songs from *The Legend of Zelda: Ocarina of Time*, drawn on the in-game staff with the N64 buttons used to play them.
 
-Live at <https://luizlisps.github.io/ocarina-cheatsheet/>.
+Live at <https://luiz0451.github.io/ocarina-cheatsheet/>.
 
 Built with Astro, React, Tailwind CSS, and shadcn/ui.
 
@@ -38,7 +38,7 @@ Built with Astro, React, Tailwind CSS, and shadcn/ui.
 
 - `@astrojs/sitemap` emits `sitemap-index.xml` with hreflang alternates.
 - `public/og-<locale>.png` are screenshots of each page (1200×630, light theme); retake them after visual changes.
-- `robots.txt` only works at a domain root, so it can't be served from this project site. Submit `https://luizlisps.github.io/ocarina-cheatsheet/sitemap-index.xml` in Google Search Console instead.
+- `robots.txt` only works at a domain root, so it can't be served from this project site. Submit `https://luiz0451.github.io/ocarina-cheatsheet/sitemap-index.xml` in Google Search Console instead.
 
 ## Deploy
 
