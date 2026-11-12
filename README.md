@@ -2,7 +2,7 @@
 
 Ocarina songs from *The Legend of Zelda: Ocarina of Time*, drawn on the in-game staff with the N64 buttons used to play them.
 
-Live at <https://luiz0451.github.io/ocarina-cheatsheet/>.
+Live at <https://ocarina.luizlab.com.br/>.
 
 Built with Astro, React, Tailwind CSS, and shadcn/ui.
 
@@ -11,7 +11,7 @@ Built with Astro, React, Tailwind CSS, and shadcn/ui.
 | Command        | Action                                 |
 | :------------- | :------------------------------------- |
 | `pnpm install` | Install dependencies                   |
-| `pnpm dev`     | Dev server at `localhost:4321/ocarina-cheatsheet/` |
+| `pnpm dev`     | Dev server at `localhost:4321`         |
 | `pnpm build`   | Build the static site to `./dist/`     |
 | `pnpm preview` | Preview the build                      |
 
@@ -25,7 +25,7 @@ Built with Astro, React, Tailwind CSS, and shadcn/ui.
 - `src/components/ExportImageButton.tsx` – "Download as image": renders the cheatsheet (`#cheatsheet`) at a fixed 1040px width to PNG with `html-to-image`, in the visitor's current theme.
 - `src/components/ui/` – shadcn/ui components.
 - `src/layouts/Layout.astro` – `<head>` SEO: title/description (`seo` in each dictionary), canonical, hreflang, Open Graph/Twitter cards, JSON-LD.
-- `src/lib/site.ts` – GitHub profile link and the `url()` helper that applies the Pages base path.
+- `src/lib/site.ts` – GitHub profile link and the `url()` helper that applies the configured base path.
 
 ## Adding a language
 
@@ -38,7 +38,7 @@ Built with Astro, React, Tailwind CSS, and shadcn/ui.
 
 - `@astrojs/sitemap` emits `sitemap-index.xml` with hreflang alternates.
 - `public/og-<locale>.png` are screenshots of each page (1200×630, light theme); retake them after visual changes.
-- `robots.txt` only works at a domain root, so it can't be served from this project site. Submit `https://luiz0451.github.io/ocarina-cheatsheet/sitemap-index.xml` in Google Search Console instead.
+- Submit `https://ocarina.luizlab.com.br/sitemap-index.xml` in Google Search Console.
 
 ## Deploy
 
